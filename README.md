@@ -11,7 +11,7 @@ Below code snippet will create hole eks cluster with .kubeconfi setup
 ```
                       eksctl create cluster --name node-test --region ap-south-1 --nodegroup-name node-workers --node-type t2.small --nodes=$WorkerNodeDesiredSize --nodes-min=$WorkerNodeMinSize --nodes-max=$WorkerNodeManSize --ssh-access --ssh-public-key test --managed
 ```
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/nodes.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/nodes.png)
 you can see nodes created on aws 
 ## Some key points of this app
 - Nodejs app is running with 10 replicas.
@@ -42,7 +42,7 @@ kubectl apply -f manifest/PersistentVolume/pv-claim.yml
 kubectl apply -f manifest/node/node-crud-app.yml
 ```
 
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/runningpod.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/runningpod.png)
 you can see 10 pods running
 Note : Make sure to changes in server.js with   host: 'mysqldb.default.svc.cluster.local' in order to connect to mysql database
 Node: i have given priorityClassName: system-cluster-critical in order for pod to have highest priority 
@@ -51,14 +51,14 @@ for configuring HPA in eks you need to metric server:
 ```
  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
  ``` 
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/hpa.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/hpa.png)
  for refrence https://docs.aws.amazon.com/eks/latest/userguide/horizontal-pod-autoscaler.html
  after metric server is deployed .Deploy the HPA
  ```
  kubeclt apply -f manifest/HPA/HPA.yml
  ```
  -----TADA your app is deployed in eks cluster------------
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/node-crud-app.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/node-crud-app.png)
  ## Bonus Points:
 - Bonus points if you include how to login and pull an image from ECR
 
@@ -87,14 +87,14 @@ kubectl run -i --tty load-generator --image=busybox /bin/sh
 while true; do wget -q -O - http://loadbalancerurl; done
 ```
 
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/loadtest.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/imagesloadtest.png)
 
 ## Add on's
 I have configured the dashboard to have a visual view :
 
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/dashboard01.png)
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/dashboard02.png)
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/dashboard03.png)
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/dashboard04.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/dashboard01.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/dashboard02.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/dashboard03.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/dashboard04.png)
 
 I have configure jenkinsfile for nodejs app CI/CD .you can check the code inside node-mysql-app directory
