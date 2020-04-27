@@ -43,9 +43,13 @@ kubectl apply -f manifest/node/node-crud-app.yml
 ```
 
 ![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/runningpod.png)
+
 you can see 10 pods running
+
 Note : Make sure to changes in server.js with   host: 'mysqldb.default.svc.cluster.local' in order to connect to mysql database
-Node: i have given priorityClassName: system-cluster-critical in order for pod to have highest priority 
+
+Node: I have given priorityClassName: system-cluster-critical in order for pod to have highest priority 
+
 4. Configure Horizontal pod scaling
 for configuring HPA in eks you need to metric server:
 ```
@@ -87,7 +91,7 @@ kubectl run -i --tty load-generator --image=busybox /bin/sh
 while true; do wget -q -O - http://loadbalancerurl; done
 ```
 
-![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/imagesloadtest.png)
+![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/loadtest.png)
 
 ## Add on's
 I have configured the dashboard to have a visual view :
