@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-crud-app
-  #namespace: kube-system
+  namespace: kube-system
 spec:
   replicas: 10
   selector:
@@ -50,7 +50,7 @@ spec:
           periodSeconds: 30
       # imagePullSecrets:
       #   - name: pass-name
-    #  priorityClassName: system-cluster-critical
+      priorityClassName: system-cluster-critical
     
 ---
 apiVersion: v1
@@ -59,7 +59,7 @@ metadata:
   name: node-crud-app
   labels:
     name: node-crud-app
- # namespace: kube-system
+  namespace: kube-system
 spec:
   selector:
     app: node-crud-app
