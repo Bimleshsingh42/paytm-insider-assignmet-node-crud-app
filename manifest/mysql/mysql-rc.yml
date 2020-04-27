@@ -4,7 +4,7 @@ metadata:
   labels:
     name: mysql
   name: mysql-controller
-#  namespace: kube-system
+  namespace: kube-system
 spec:
   replicas: 1
   template:
@@ -43,7 +43,7 @@ kind: Service
 metadata:
   labels:
     name: mysql-service
- # namespace: kube-system
+  namespace: kube-system
 
   name: mysqldb
 spec:
