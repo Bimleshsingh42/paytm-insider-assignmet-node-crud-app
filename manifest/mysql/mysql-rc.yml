@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: mysql
+  name: mysql-controller
+#  namespace: kube-system
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mysql-controller
+    spec:
+      containers:
+      - image: mysql:8.0.2
+        name: mysql
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: db
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+      #   volumeMounts:
+      #   - name: mysql-persistent-storage
+      #     mountPath: /var/lib/mysql
+      # volumes:
+      # - name: mysql-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: pv-claim-db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: mysql-service
+ # namespace: kube-system
+
+  name: mysqldb
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    name: mysql-controller

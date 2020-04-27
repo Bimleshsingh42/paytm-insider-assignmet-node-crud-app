@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-crud-app
+  #namespace: kube-system
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: node-crud-app
+  progressDeadlineSeconds: 600
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 3
+    type: RollingUpdate
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: node-crud-app
+    spec:
+      containers:
+      - name: nodejs
+        image: 247707717462.dkr.ecr.ap-south-1.amazonaws.com/nodejs-test:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: 2048Mi
+            cpu: 800m
+          requests:
+            memory: 200Mi
+            cpu: 100m
+        ports:
+        - containerPort: 3000
+          name: http-server
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http-server
+          initialDelaySeconds: 15
+          periodSeconds: 30
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http-server
+          initialDelaySeconds: 20
+          periodSeconds: 30
+      # imagePullSecrets:
+      #   - name: pass-name
+    #  priorityClassName: system-cluster-critical
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-crud-app
+  labels:
+    name: node-crud-app
+ # namespace: kube-system
+spec:
+  selector:
+    app: node-crud-app
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  type: LoadBalancer

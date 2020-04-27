@@ -1,0 +1,45 @@
+{
+    options {
+    buildDiscarder(logRotator(numToKeepStr: '3', daysToKeepStr: '2', artifactNumToKeepStr: '3'))
+    }
+    agent any
+    stages {
+        stage('Prepare') {
+            steps {
+            step([$class: 'WsCleanup'])
+            checkout([
+            $class: 'GitSCM', 
+            branches: [[name: '*/test']], 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [[$class: 'CleanCheckout']], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[credentialsId: '$credentialsId', url: '$serverurl']]
+                ])
+            }
+        }
+        stage('Set Context') {
+            steps {
+            sh '''
+            kubectl config use-context $context-name
+            '''
+            }
+        }
+        stage('Change-Image & Apply') {
+            steps {
+            sh '''
+            cp /var/lib/jenkins/workspace/nodejs-test/Build.txt .
+            sed -i '1s/^/ nodejs-test-/' Build.txt
+            new_tag=`cat Build.txt`
+            running_tag=`grep "image" manifest/node/node-crud-app.yml | awk -F '/' '{print $2}'`
+            if [ "$running_tag" = "$new_tag" ] ; then
+                figlet "RUNNING LATEST VERSION"
+            else
+                sed -i "s/${running_tag}/${new_tag}/g" services/zestlife.yml
+                kubectl apply -f manifest/node/node-crud-app.yml
+                rm -rf Build.txt
+            fi
+            '''
+            }
+        }
+    }
+}

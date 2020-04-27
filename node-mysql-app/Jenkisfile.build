@@ -1,0 +1,32 @@
+{
+    options {
+    buildDiscarder(logRotator(numToKeepStr: '3', daysToKeepStr: '2', artifactNumToKeepStr: '3'))
+    }
+    agent any
+    stages {
+        stage('Prepare') {
+            steps {
+            step([$class: 'WsCleanup'])
+            checkout([
+            $class: 'GitSCM', 
+            branches: [[name: '*/test']], 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [[$class: 'CleanCheckout']], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[credentialsId: '$credentialsId', url: '$serverurl']]
+                ])
+            }
+        }
+        stage('build and deploy docker image') {
+            steps {
+            sh '''
+            $(aws ecr get-login --no-include-email --region ap-south-1)
+            docker build . -t "405349833286.dkr.ecr.ap-south-1.amazonaws.com/ nodejs-test:$BUILD_NUMBER" -f Dockerfile 
+            docker push "405349833286.dkr.ecr.ap-south-1.amazonaws.com/ nodejs-test:$BUILD_NUMBER"
+             echo $BUILD_NUMBER > Build.txt
+            '''
+            }
+        }
+        }
+    }
+}
