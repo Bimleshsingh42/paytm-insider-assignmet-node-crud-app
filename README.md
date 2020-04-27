@@ -31,7 +31,7 @@ kubeclt apply -f manifest/secret/secret.yml
 ```
 kubectl apply -f manifest/mysql/mysql-rc.yml
 ```
-# Bonus Point:
+Bonus Point:
 create volume of storage class and pvc in order to save data in rds on aws in case you want to make data persistant
 ```
 kubectl apply -f manifest/PersistentVolume/storageclass.yml
@@ -102,3 +102,4 @@ I have configured the dashboard to have a visual view :
 ![IMG](https://github.com/Bimleshsingh42/paytm-insider-assignmet-node-crud-app/blob/master/images/dashboard04.png)
 
 I have configure jenkinsfile for nodejs app CI/CD .you can check the code inside node-mysql-app directory
+
