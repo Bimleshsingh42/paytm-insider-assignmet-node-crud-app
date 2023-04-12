@@ -10,11 +10,11 @@
   "author": "Bimlesh Singh",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "bootstrap": "^3.3.7",
     "dateformat": "^3.0.3",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "express-partials": "^0.3.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
