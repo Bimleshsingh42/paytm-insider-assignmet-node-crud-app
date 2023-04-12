@@ -1,4 +1,4 @@
-## Paytm-insider-assignmet-node-crud-app
+## node-crud-app
 This repo contain and sample node-js app with complete k8s manifest to deploy to EKS.
 you can the app here [Node-Crud-APP](http://a63bfb578afe74d1ebab7f0166c52ec5-1092034673.ap-south-1.elb.amazonaws.com/)
 ## Cluster setup process:
